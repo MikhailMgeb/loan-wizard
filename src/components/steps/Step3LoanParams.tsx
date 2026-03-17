@@ -1,0 +1,92 @@
+import { useForm } from 'react-hook-form'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateStep3 } from "../../store/loanForm/loanFormSlice.ts";
+import type { TRootState } from "../../store/store.ts";
+import type { IStep3Data } from "../../types/loanForm/types.ts";
+
+interface Props {
+	onBack: () => void
+	onSubmit: () => void
+}
+
+export const Step3LoanParams = ({ onBack, onSubmit }: Props) => {
+	const dispatch = useDispatch()
+	const saved = useSelector((state: TRootState) => state.loanForm.step3)
+	const { step1 } = useSelector((state: TRootState) => state.loanForm)
+
+	const {
+		register,
+		handleSubmit,
+		watch,
+		formState: { errors },
+	} = useForm<IStep3Data>({
+		defaultValues: saved,
+	})
+
+	const amount = watch('amount')
+	const term = watch('term')
+
+	const handleFormSubmit = async (data: IStep3Data) => {
+		dispatch(updateStep3(data))
+
+		await fetch('https://dummyjson.com/products/add', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				title: `${step1.firstName} ${step1.lastName}`,
+			}),
+		})
+
+		onSubmit()
+	}
+
+	return (
+		<div>
+			<h4 className="mb-4">Шаг 3: Параметры займа</h4>
+			<form onSubmit={handleSubmit(handleFormSubmit)} noValidate>
+
+				<div className="mb-4">
+					<label className="form-label">
+						Сумма займа: <strong>${amount}</strong>
+					</label>
+					<input
+						type="range"
+						className={`form-range ${errors.amount ? 'is-invalid' : ''}`}
+						min={200}
+						max={1000}
+						step={100}
+						{...register('amount', { required: 'Обязательное поле', valueAsNumber: true })}
+					/>
+					{errors.amount && <div className="text-danger small">{errors.amount.message}</div>}
+				</div>
+
+				<div className="mb-4">
+					<label className="form-label">
+						Срок займа: <strong>{term} дней</strong>
+					</label>
+					<input
+						type="range"
+						className={`form-range ${errors.term ? 'is-invalid' : ''}`}
+						min={10}
+						max={30}
+						step={1}
+						{...register('term', { required: 'Обязательное поле', valueAsNumber: true })}
+					/>
+					{errors.term && <div className="text-danger small">{errors.term.message}</div>}
+				</div>
+
+				<div className="d-flex gap-2">
+					<button type="button" className="btn btn-secondary" onClick={onBack}>
+						← Назад
+					</button>
+					<button type="submit" className="btn btn-primary">
+						Подать заявку
+					</button>
+				</div>
+
+			</form>
+		</div>
+	)
+}
+
+export default Step3LoanParams
