@@ -1,10 +1,10 @@
 import { useForm } from 'react-hook-form'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { BUTTONS, FIELDS, LABELS, STEPS, VALIDATION } from "../../constants/loanForm";
 
 import { useCategories } from '../../hooks/useCategories'
 import { updateStep2 } from "../../store/loanForm/loanFormSlice.ts";
-import type { TRootState } from "../../store/store.ts";
+import { type TRootState, useAppDispatch } from "../../store/store.ts";
 import type { IStep2Data } from "../../types/loanForm/types.ts";
 import { FormField } from "../FormField/FormField.tsx";
 import { FormSelect } from "../FormSelect/FormSelect.tsx";
@@ -15,7 +15,7 @@ interface IProps {
 }
 
 export const Step2Address = ( {onNext, onBack}: IProps ) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const saved = useSelector(( state: TRootState ) => state.loanForm.step2)
   const {categories, loading} = useCategories()
 

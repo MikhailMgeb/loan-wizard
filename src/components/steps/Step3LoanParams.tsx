@@ -1,8 +1,9 @@
 import { useForm } from 'react-hook-form'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { BUTTONS, FIELDS, STEPS, VALIDATION } from "../../constants/loanForm";
 import { updateStep3 } from "../../store/loanForm/loanFormSlice.ts";
-import type { TRootState } from "../../store/store.ts";
+import { submitLoanThunk } from "../../store/loanForm/loanFormThunks.ts";
+import { type TRootState, useAppDispatch } from "../../store/store.ts";
 import type { IStep3Data } from "../../types/loanForm/types.ts";
 
 interface IProps {
@@ -11,7 +12,7 @@ interface IProps {
 }
 
 export const Step3LoanParams = ( {onBack, onSubmit}: IProps ) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const saved = useSelector(( state: TRootState ) => state.loanForm.step3)
   const {step1} = useSelector(( state: TRootState ) => state.loanForm)
 
@@ -30,13 +31,10 @@ export const Step3LoanParams = ( {onBack, onSubmit}: IProps ) => {
   const handleFormSubmit = async ( data: IStep3Data ) => {
     dispatch(updateStep3(data))
 
-    await fetch('https://dummyjson.com/products/add', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        title: `${step1.firstName} ${step1.lastName}`,
-      }),
-    })
+    dispatch(submitLoanThunk({
+      firstName: step1.firstName,
+      lastName: step1.lastName,
+    }))
 
     onSubmit()
   }
