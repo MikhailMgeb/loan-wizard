@@ -5,23 +5,23 @@ import type { TRootState } from "../store/store.ts";
 
 // Хук кэширует результат в Redux — повторный вызов не делает новый запрос
 export function useCategories() {
-	const dispatch = useDispatch()
-	const { categories, loading } = useSelector((state: TRootState) => state.loanForm.categories)
+  const dispatch = useDispatch()
+  const {categories, loading} = useSelector(( state: TRootState ) => state.loanForm.categories)
 
-	useEffect(() => {
-		if (categories.length > 0) return
+  useEffect(() => {
+    if (categories.length > 0) return
 
-		dispatch(setLoading(true))
+    dispatch(setLoading(true))
 
-		fetch('https://dummyjson.com/products/category-list')
-		.then(res => res.json())
-		.then((data: string[]) => {
-			dispatch(setCategories(data.map(c => ({ value: c, label: c }))))
-		})
-		.finally(() => {
-			dispatch(setLoading(false))
-		})
-	}, [categories.length, dispatch])
+    fetch('https://dummyjson.com/products/category-list')
+    .then(res => res.json())
+    .then(( data: string[] ) => {
+      dispatch(setCategories(data.map(c => ({value: c, label: c}))))
+    })
+    .finally(() => {
+      dispatch(setLoading(false))
+    })
+  }, [categories.length, dispatch])
 
-	return { categories, loading }
+  return {categories, loading}
 }
