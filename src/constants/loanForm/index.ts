@@ -42,8 +42,6 @@ export const GENDER_OPTIONS = [
   {value: GENDER.Female, label: 'Женский'},
 ]
 
-export const SELECT_PLACEHOLDER = 'Выберите...'
-
 export const STEPS = {
   step1: 'Шаг 1: Личные данные',
   step2: 'Шаг 2: Адрес и место работы',

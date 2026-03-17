@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
-import { FIELDS, VALIDATION } from "../../constants/loanForm";
+import { BUTTONS, FIELDS, STEPS, VALIDATION } from "../../constants/loanForm";
 import { updateStep3 } from "../../store/loanForm/loanFormSlice.ts";
 import type { TRootState } from "../../store/store.ts";
 import type { IStep3Data } from "../../types/loanForm/types.ts";
@@ -43,7 +43,7 @@ export const Step3LoanParams = ( {onBack, onSubmit}: IProps ) => {
 
   return (
     <div>
-      <h4 className="mb-4">Шаг 3: Параметры займа</h4>
+      <h4 className="mb-4">{STEPS.step3}</h4>
       <form onSubmit={handleSubmit(handleFormSubmit)} noValidate>
 
         <div className="mb-4">
@@ -78,10 +78,10 @@ export const Step3LoanParams = ( {onBack, onSubmit}: IProps ) => {
 
         <div className="d-flex gap-2">
           <button type="button" className="btn btn-secondary" onClick={onBack}>
-            ← Назад
+            {BUTTONS.back}
           </button>
           <button type="submit" className="btn btn-primary">
-            Подать заявку
+            {BUTTONS.submit}
           </button>
         </div>
 
