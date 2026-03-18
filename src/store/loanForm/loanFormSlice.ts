@@ -1,7 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import { GENDER } from "../../constants/loanForm";
 import type {
-  ICategoryOption,
   ILoanFormState,
   IStep1Data,
   IStep2Data,
@@ -23,10 +22,6 @@ const initialState: ILoanFormState = {
     amount: 200,
     term: 10,
   },
-  categories: {
-    categories: [],
-    loading: false,
-  },
 }
 
 export const loanFormSlice = createSlice({
@@ -42,13 +37,7 @@ export const loanFormSlice = createSlice({
     updateStep3: ( state, action: PayloadAction<IStep3Data> ) => {
       state.step3 = action.payload
     },
-    setCategories: ( state, action: PayloadAction<ICategoryOption[]> ) => {
-      state.categories.categories = action.payload
-    },
-    setLoading: ( state, action: PayloadAction<boolean> ) => {
-      state.categories.loading = action.payload
-    },
   },
 })
 
-export const {updateStep1, updateStep2, updateStep3, setCategories, setLoading} = loanFormSlice.actions
+export const {updateStep1, updateStep2, updateStep3} = loanFormSlice.actions
