@@ -1,13 +1,20 @@
 import { useSelector } from 'react-redux'
 import { BUTTONS, MODAL } from "../../constants/loanForm";
-import type { TRootState } from "../../store/store.ts";
+import { resetForm } from "../../store/loanForm/loanFormSlice.ts";
+import { type TRootState, useAppDispatch } from "../../store/store.ts";
 
 interface IProps {
   onClose: () => void
 }
 
 export const ConfirmModal = ( {onClose}: IProps ) => {
+  const dispatch = useAppDispatch()
   const {step1, step3} = useSelector(( state: TRootState ) => state.loanForm)
+
+  const handleClose = () => {
+    dispatch(resetForm())
+    onClose()
+  }
 
   return (
     <div className="modal d-block" tabIndex={-1} style={{backgroundColor: 'rgba(0,0,0,0.5)'}}>
@@ -26,7 +33,7 @@ export const ConfirmModal = ( {onClose}: IProps ) => {
           </div>
 
           <div className="modal-footer">
-            <button type="button" className="btn btn-primary" onClick={onClose}>
+            <button type="button" className="btn btn-primary" onClick={handleClose}>
               {BUTTONS.close}
             </button>
           </div>

@@ -1,5 +1,6 @@
 import { forwardRef, type SelectHTMLAttributes } from 'react'
 import type { FieldError } from "react-hook-form";
+import { SELECT_PLACEHOLDER } from "../../constants";
 
 
 interface IProps extends SelectHTMLAttributes<HTMLSelectElement> {
@@ -17,7 +18,7 @@ export const FormSelect = forwardRef<HTMLSelectElement, IProps>(( {label, error,
         className={`form-select ${error ? 'is-invalid' : ''}`}
         {...rest}
       >
-        <option value="">Выберите...</option>
+        <option value="">{SELECT_PLACEHOLDER}</option>
         {options.map(opt => (
           <option key={opt.value} value={opt.value}>
             {opt.label}

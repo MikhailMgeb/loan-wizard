@@ -24,7 +24,7 @@ export interface ICategoryOption {
   label: string
 }
 
-interface ICategoriesState {
+export interface ICategoriesState {
   categories: ICategoryOption[]
   loading: boolean
 }
@@ -33,5 +33,6 @@ export interface ILoanFormState {
   step1: IStep1Data
   step2: IStep2Data
   step3: IStep3Data
-  categories: ICategoriesState,
+  isLoading: boolean,
+  error: string | null,
 }

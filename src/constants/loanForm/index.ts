@@ -14,9 +14,13 @@ export const FIELDS = {
   term: 'term',
 } as const
 
+export const PLACEHOLDER = {
+  phone: '0XXX XXX XXX',
+} as const
+
 export const VALIDATION = {
   required: 'Обязательное поле',
-  phoneFormat: 'Формат: +7 (XXX) XXX-XX-XX',
+  phoneFormat: 'Формат: 0XXX XXX XXX',
 } as const
 
 export const LABELS = {
@@ -41,8 +45,6 @@ export const GENDER_OPTIONS = [
   {value: GENDER.Male, label: 'Мужской'},
   {value: GENDER.Female, label: 'Женский'},
 ]
-
-export const SELECT_PLACEHOLDER = 'Выберите...'
 
 export const STEPS = {
   step1: 'Шаг 1: Личные данные',

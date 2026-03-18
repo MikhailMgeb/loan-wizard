@@ -1,8 +1,9 @@
 import { useForm } from 'react-hook-form'
-import { useDispatch, useSelector } from 'react-redux'
-import { FIELDS, VALIDATION } from "../../constants/loanForm";
+import { useSelector } from 'react-redux'
+import { BUTTONS, FIELDS, STEPS, VALIDATION } from "../../constants/loanForm";
 import { updateStep3 } from "../../store/loanForm/loanFormSlice.ts";
-import type { TRootState } from "../../store/store.ts";
+import { submitLoanThunk } from "../../store/loanForm/loanFormThunks.ts";
+import { type TRootState, useAppDispatch } from "../../store/store.ts";
 import type { IStep3Data } from "../../types/loanForm/types.ts";
 
 interface IProps {
@@ -11,7 +12,8 @@ interface IProps {
 }
 
 export const Step3LoanParams = ( {onBack, onSubmit}: IProps ) => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
+  const isLoading = useSelector(( state: TRootState ) => state.loanForm.isLoading)
   const saved = useSelector(( state: TRootState ) => state.loanForm.step3)
   const {step1} = useSelector(( state: TRootState ) => state.loanForm)
 
@@ -30,20 +32,17 @@ export const Step3LoanParams = ( {onBack, onSubmit}: IProps ) => {
   const handleFormSubmit = async ( data: IStep3Data ) => {
     dispatch(updateStep3(data))
 
-    await fetch('https://dummyjson.com/products/add', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        title: `${step1.firstName} ${step1.lastName}`,
-      }),
-    })
+    dispatch(submitLoanThunk({
+      firstName: step1.firstName,
+      lastName: step1.lastName,
+    }))
 
     onSubmit()
   }
 
   return (
     <div>
-      <h4 className="mb-4">Шаг 3: Параметры займа</h4>
+      <h4 className="mb-4">{STEPS.step3}</h4>
       <form onSubmit={handleSubmit(handleFormSubmit)} noValidate>
 
         <div className="mb-4">
@@ -78,10 +77,15 @@ export const Step3LoanParams = ( {onBack, onSubmit}: IProps ) => {
 
         <div className="d-flex gap-2">
           <button type="button" className="btn btn-secondary" onClick={onBack}>
-            ← Назад
+            {BUTTONS.back}
           </button>
-          <button type="submit" className="btn btn-primary">
-            Подать заявку
+          <button type="submit" className="btn btn-primary" disabled={isLoading}>
+            {isLoading ? (
+              <>
+                <span className="spinner-border spinner-border-sm me-2" />
+                Отправка...
+              </>
+            ) : BUTTONS.submit}
           </button>
         </div>
 
