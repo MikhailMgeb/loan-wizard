@@ -14,9 +14,13 @@ export const FIELDS = {
   term: 'term',
 } as const
 
+export const PLACEHOLDER = {
+  phone: '0XXX XXX XXX',
+} as const
+
 export const VALIDATION = {
   required: 'Обязательное поле',
-  phoneFormat: 'Формат: +7 (XXX) XXX-XX-XX',
+  phoneFormat: 'Формат: 0XXX XXX XXX',
 } as const
 
 export const LABELS = {

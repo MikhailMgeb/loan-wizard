@@ -40,6 +40,13 @@ export const loanFormSlice = createSlice({
     updateStep3: ( state, action: PayloadAction<IStep3Data> ) => {
       state.step3 = action.payload
     },
+    resetForm: ( state ) => {
+      state.step1 = initialState.step1
+      state.step2 = initialState.step2
+      state.step3 = initialState.step3
+      state.isLoading = false
+      state.error = null
+    },
   },
   extraReducers: ( builder ) => {
     builder
@@ -57,4 +64,4 @@ export const loanFormSlice = createSlice({
   }
 })
 
-export const {updateStep1, updateStep2, updateStep3} = loanFormSlice.actions
+export const {updateStep1, updateStep2, updateStep3, resetForm} = loanFormSlice.actions
