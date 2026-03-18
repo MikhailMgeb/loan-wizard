@@ -13,6 +13,7 @@ interface IProps {
 
 export const Step3LoanParams = ( {onBack, onSubmit}: IProps ) => {
   const dispatch = useAppDispatch()
+  const isLoading = useSelector(( state: TRootState ) => state.loanForm.isLoading)
   const saved = useSelector(( state: TRootState ) => state.loanForm.step3)
   const {step1} = useSelector(( state: TRootState ) => state.loanForm)
 
@@ -78,8 +79,13 @@ export const Step3LoanParams = ( {onBack, onSubmit}: IProps ) => {
           <button type="button" className="btn btn-secondary" onClick={onBack}>
             {BUTTONS.back}
           </button>
-          <button type="submit" className="btn btn-primary">
-            {BUTTONS.submit}
+          <button type="submit" className="btn btn-primary" disabled={isLoading}>
+            {isLoading ? (
+              <>
+                <span className="spinner-border spinner-border-sm me-2" />
+                Отправка...
+              </>
+            ) : BUTTONS.submit}
           </button>
         </div>
 

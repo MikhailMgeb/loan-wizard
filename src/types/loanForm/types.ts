@@ -33,4 +33,6 @@ export interface ILoanFormState {
   step1: IStep1Data
   step2: IStep2Data
   step3: IStep3Data
+  isLoading: boolean,
+  error: string | null,
 }

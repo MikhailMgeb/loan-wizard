@@ -6,6 +6,7 @@ import type {
   IStep2Data,
   IStep3Data,
 } from "../../types/loanForm/types.ts";
+import { submitLoanThunk } from "./loanFormThunks.ts";
 
 const initialState: ILoanFormState = {
   step1: {
@@ -22,6 +23,8 @@ const initialState: ILoanFormState = {
     amount: 200,
     term: 10,
   },
+  isLoading: false,
+  error: null,
 }
 
 export const loanFormSlice = createSlice({
@@ -38,6 +41,20 @@ export const loanFormSlice = createSlice({
       state.step3 = action.payload
     },
   },
+  extraReducers: ( builder ) => {
+    builder
+    .addCase(submitLoanThunk.pending, ( state ) => {
+      state.isLoading = true
+      state.error = null
+    })
+    .addCase(submitLoanThunk.fulfilled, ( state ) => {
+      state.isLoading = false
+    })
+    .addCase(submitLoanThunk.rejected, ( state, action ) => {
+      state.isLoading = false
+      state.error = action.payload as string
+    })
+  }
 })
 
 export const {updateStep1, updateStep2, updateStep3} = loanFormSlice.actions
